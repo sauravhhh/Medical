@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Reminder Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient-white min-h-screen flex flex-col">
+    <header class="bg-white shadow-sm py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800">Medicine Reminder</h1>
+                    <p class="text-center text-gray-500 mt-1">Never miss your medication again</p>
+                </div>
+                <div class="flex items-center ml-4">
+                    <i class="fas fa-clock text-green-600 mr-2 timer-indicator"></i>
+                    <span class="text-sm text-gray-600">Timer Active</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-6">
+        <div class="max-w-3xl mx-auto">
+            <!-- Next Reminder Card -->
+            <div id="next-reminder-container" class="hidden mb-6">
+                <div class="next-reminder-card rounded-xl shadow-md overflow-hidden">
+                    <div class="p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-bell text-yellow-600 text-2xl mr-3 pulse-animation"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Next Reminder</h3>
+                                    <p class="text-sm text-gray-600" id="next-reminder-text"></p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-gray-800" id="next-reminder-time"></p>
+                                <p class="text-sm text-gray-600" id="next-reminder-countdown"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Reminder Form -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6" id="form-container">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4" id="form-title">Add New Reminder</h2>
+                    <form id="medicine-form" class="space-y-4">
+                        <input type="hidden" id="edit-id" value="">
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1" for="medicine-name">Medicine Name</label>
+                            <input type="text" id="medicine-name" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., Paracetamol" required>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="dosage">Dosage</label>
+                                <input type="text" id="dosage" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 500mg" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="frequency">Frequency</label>
+                                <select id="frequency" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                                    <option value="once-daily">Once Daily</option>
+                                    <option value="twice-daily">Twice Daily</option>
+                                    <option value="thrice-daily">Thrice Daily</option>
+                                    <option value="as-needed">As Needed</option>
+                                    <option value="weekly">Weekly</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Time Selection Section -->
+                        <div id="time-selection" class="space-y-3">
+                            <!-- Time inputs will be dynamically added here -->
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="start-date">Start Date</label>
+                                <input type="date" id="start-date" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-1" for="end-date">End Date (Optional)</label>
+                                <input type="date" id="end-date" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1" for="notes">Notes (Optional)</label>
+                            <textarea id="notes" rows="2" class="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Any additional instructions..."></textarea>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <button type="submit" id="submit-btn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                                Add Reminder
+                            </button>
+                            <button type="button" id="cancel-btn" class="hidden flex-1 bg-gray-500 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reminders List -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Your Reminders</h2>
+                    <div id="reminders-list" class="space-y-4">
+                        <!-- Reminders will be dynamically added here -->
+                    </div>
+                    <div id="no-reminders" class="text-center py-8 text-gray-500">
+                        <i class="fas fa-pills text-4xl mb-3"></i>
+                        <p>No reminders added yet. Add your first medicine reminder above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-4 text-center text-gray-500">
+        <p>Made with ❤️ by Sauravhhh</p>
+    </footer>
+
+    <!-- Pill Alert Modal -->
+    <div id="pill-alert-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="pill-alert-modal bg-white rounded-lg p-6 max-w-sm w-full mx-4">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-pills text-3xl text-blue-600 mr-3 pulse-animation"></i>
+                <h3 class="text-xl font-bold text-gray-800">Pill Alert</h3>
+            </div>
+            <p class="text-gray-600 mb-2">It's time to take your medicine:</p>
+            <p class="text-lg font-semibold text-gray-800 mb-4" id="alert-medicine-name"></p>
+            <div class="text-sm text-gray-600 mb-4" id="alert-medicine-details"></div>
+            <div class="flex justify-end">
+                <button onclick="closePillAlert()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
