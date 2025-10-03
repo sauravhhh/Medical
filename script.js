@@ -19,7 +19,7 @@ const alertMedicineName = document.getElementById('alert-medicine-name');
 const alertMedicineDetails = document.getElementById('alert-medicine-details');
 const nextReminderContainer = document.getElementById('next-reminder-container');
 const nextReminderText = document.getElementById('next-reminder-text');
-const nextReminderTime = document.getElementById('next-reminder-time');
+const nextReminderTimeElement = document.getElementById('next-reminder-time'); // Renamed to avoid conflict
 const nextReminderCountdown = document.getElementById('next-reminder-countdown');
 const frequencySelect = document.getElementById('frequency');
 
@@ -380,7 +380,7 @@ function updateNextReminder() {
     const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes
     
     let nextReminder = null;
-    let nextReminderTime = null;
+    let nextScheduleItem = null; // Changed variable name to avoid conflict
     let minTimeDiff = Infinity;
     
     reminders.forEach(reminder => {
@@ -401,20 +401,20 @@ function updateNextReminder() {
             if (timeDiff < minTimeDiff) {
                 minTimeDiff = timeDiff;
                 nextReminder = reminder;
-                nextReminderTime = scheduleItem;
+                nextScheduleItem = scheduleItem; // Use the renamed variable
             }
         });
     });
     
-    if (nextReminder && nextReminderTime) {
+    if (nextReminder && nextScheduleItem) {
         // Show next reminder card
         nextReminderContainer.classList.remove('hidden');
         
-        const timeDisplay = nextReminderTime.time.charAt(0).toUpperCase() + nextReminderTime.time.slice(1);
-        const mealDisplay = nextReminderTime.meal === 'before' ? 'Before Meal' : nextReminderTime.meal === 'after' ? 'After Meal' : 'Anytime';
+        const timeDisplay = nextScheduleItem.time.charAt(0).toUpperCase() + nextScheduleItem.time.slice(1);
+        const mealDisplay = nextScheduleItem.meal === 'before' ? 'Before Meal' : nextScheduleItem.meal === 'after' ? 'After Meal' : 'Anytime';
         
         nextReminderText.textContent = `${nextReminder.medicineName} - ${nextReminder.dosage}`;
-        nextReminderTime.textContent = formatTime(nextReminderTime.specificTime);
+        nextReminderTimeElement.textContent = formatTime(nextScheduleItem.specificTime); // Use renamed DOM element
         
         // Update countdown
         const hours = Math.floor(minTimeDiff / 60);
