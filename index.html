@@ -1,0 +1,89 @@
+.bg-gradient-white {
+    background: linear-gradient(to bottom, #ffffff, #f9fafb, #f3f4f6);
+}
+
+.tab-active {
+    border-bottom: 3px solid #3b82f6;
+    color: #3b82f6;
+}
+
+.reminder-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reminder-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.time-badge {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.frequency-badge {
+    background-color: #ede9fe;
+    color: #5b21b6;
+}
+
+.dosage-badge {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.schedule-badge {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.meal-badge {
+    background-color: #fce7f3;
+    color: #9f1239;
+}
+
+.time-input-group {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.edit-mode {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+}
+
+.pill-alert-modal {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-indicator {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.3; }
+}
+
+.next-reminder-card {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 2px solid #f59e0b;
+}
